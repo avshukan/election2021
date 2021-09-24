@@ -1,0 +1,25 @@
+{
+  "name": "election2021",
+  "version": "1.0.0",
+  "description": "Scraper for Russian election 2021",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint .",
+    "lint-fix": "npx eslint --fix ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "mysql2": "^2.2.5",
+    "performance-now": "^2.1.0",
+    "puppeteer": "^8.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.20.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-strongloop": "^2.1.0",
+    "eslint-plugin-import": "^2.22.1"
+  }
+}
