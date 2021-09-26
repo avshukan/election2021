@@ -1,0 +1,82 @@
+    [
+        {
+            "name": " Александровск-Сахалинская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585067&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Анивская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585069&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Долинская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585054&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Корсаковская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585062&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Курильская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585052&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Макаровская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585070&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Невельская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585061&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Ногликская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585053&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Охинская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585065&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Поронайская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585058&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Северо-Курильская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585071&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Смирныховская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585055&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Томаринская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585066&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Тымовская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585063&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Углегорская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585056&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Холмская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585064&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Южно-Курильская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585059&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Южно-Сахалинская городская",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585060&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Невельская судовая",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585057&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        },
+        {
+            "name": " Холмская судовая",
+            "href": "region/izbirkom?action=show&root=1000220&tvd=2652000585068&vrn=100100225883172&prver=0&pronetvd=null&region=65&sub_region=65&type=242&report_mode=null"
+        }
+    ]
