@@ -7,15 +7,19 @@ require('dotenv').config(DOTENV_OPTIONS);
 const tiks = require('./tiks.json');
 const uiks = require('./uiks.json');
 const emulator = require('./emulator');
+const host = 'http://www.vybory.izbirkom.ru';
 
 (async () => {
-    const { closeEmulator, handlePagesQueue } = await emulator();
-    const result = [];
+    const { closeEmulator, getPageInfo, getResult } = await emulator();
     uiks
         // .filter(({ index }) => index === 0)
         .filter((value, index) => index === 0)
-        .forEach((value) => {
-            console.log(value);
+        .forEach(async (value) => {
+            const url = `${host}/${value.tikHref}`;
+            console.log(url);
+            await getPageInfo(url);
+            const result = await getResult();
+            console.log('result', result);
         });
-    await closeEmulator();
+    // await closeEmulator();
 })();
