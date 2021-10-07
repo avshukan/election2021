@@ -14,8 +14,8 @@ const host = 'http://www.vybory.izbirkom.ru';
 (async () => {
   const { closeEmulator, getPageInfo, getResult } = await emulator();
   uiks
-    // .filter(({ index }) => index === 0)
-    .filter((value, index) => index <= 2)
+    .filter((value, index) => index === 0)
+    // .filter((value, index) => index <= 2)
     .forEach(async (value) => {
       const filename = `uik_${value.uikName.split('№')[1]}.json`;
       const url = `${host}/${value.tikHref}`;
