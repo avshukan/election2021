@@ -71,16 +71,14 @@ const emulator = async () => {
               console.log('start', index);
               console.log('result', result);
               if ((result.length === size) || (index + 1 == arr.length)) {
-                data.push(Promise.all([...result, promiseFunction(value, index)]))
+                data.push(Promise.all([...result, promiseFunction(value, index)]));
                 return [];
-              } else {
-                return [...result, promiseFunction(value, index)];
-              };
+              }
+              return [...result, promiseFunction(value, index)];
             },
-            []
-          );
+              []);
           return data;
-      };
+        };
 
         const getRowData = (row, index) => capture(row.children[2], { imageTimeout: 1 })
           .then((image) => recognize(image))
@@ -98,10 +96,9 @@ const emulator = async () => {
             throw new Error(error);
           });
 
-        // const promises = rows.filter((value, index) => index < 4).map(getRowData);
         console.log('before');
         console.log('promisesAllByGroup', promisesAllByGroup);
-        const promises = promisesAllByGroup(rows.filter((value, index) => index < 6), getRowData, 2);
+        const promises = promisesAllByGroup(rows, getRowData, 6);
         console.log('after');
         console.log(promises);
         const x = [];
@@ -110,7 +107,7 @@ const emulator = async () => {
             const bla = await p;
             console.log('bla', bla);
             x.push(...bla);
-          } catch(e) {
+          } catch (e) {
             console.log('e', e);
           }
         }
