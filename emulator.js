@@ -29,6 +29,13 @@ const emulator = async () => {
       const element = await page.evaluate(async () => {
         const { default: capture } = await import('https://esm.sh/html2canvas');
         const { default: { recognize } } = await import('https://esm.sh/tesseract.js');
+        const captcha = document.getElementById('captchaImg');
+        console.log('captcha', captcha);
+        if (captcha) {
+          recognize(captcha)
+            .then((recognized) => recognized.data.text)
+            .then((text) => console.log('captcha text', text));
+        }
         const rows = [...document.querySelectorAll('.table-responsive tr')];
         // for (const row of rows) {
         //   // for (const row of [rows[0], rows[2], rows[22]]) {
@@ -98,7 +105,8 @@ const emulator = async () => {
 
         console.log('before');
         console.log('promisesAllByGroup', promisesAllByGroup);
-        const promises = promisesAllByGroup(rows, getRowData, 6);
+        // const promises = promisesAllByGroup(rows, getRowData, 6);
+        const promises = promisesAllByGroup(rows.filter((_value, index) => index < 2), getRowData, 6);
         console.log('after');
         console.log(promises);
         const x = [];
