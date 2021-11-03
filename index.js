@@ -13,13 +13,14 @@ const host = 'http://www.vybory.izbirkom.ru';
 
 (async () => {
   const { closeEmulator, getPageInfo, getResult } = await emulator();
-  const pages = uiks.filter((value, index) => index <= 2);
+  const pages = uiks.filter((value, index) => index <= 5);
 
   for (let i = 0; i < pages.length; i += 1) {
+    console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+    console.log(i);
     const page = pages[i];
     const filename = `uik_${page.uikName.split('№')[1]}.json`;
-    const url = `${host}/${page.tikHref}`;
-    console.log(url);
+    const url = `${host}/${page.uikHref}`;
     const tikInfo = await getPageInfo(url);
     const content = { ...page, ...tikInfo.payload };
     await fsp.writeFile(filename, JSON.stringify(content), 'utf-8');

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { resolve } = require('path');
 const now = require('performance-now');
 const puppeteer = require('puppeteer');
 // const { promisesAllByGroup } = require('./promisesAllByGroup');
@@ -6,36 +7,66 @@ const puppeteer = require('puppeteer');
 const emulator = async () => {
   const result = [];
   const browser = await puppeteer.launch({ headless: false, args: ['--no-sandbox'] });
-  const page = await browser.newPage();
-  await page.setViewport({
-    width: 1920,
-    height: 1080,
-    deviceScaleFactor: 1,
-  });
 
   async function closeEmulator() {
     await browser.close();
     console.log('emulator closed');
   }
 
+  async function hasCaptcha(page) {
+    return await page.$('#captchaImg');
+  }
+
+  async function solveCaptcha(page) {
+    const text = await page.evaluate(async () => {
+      const { default: { recognize } } = await import('https://esm.sh/tesseract.js');
+      const captcha = document.getElementById('captchaImg');
+      const recoginized = await recognize(captcha)
+        .then((image) => image.data.text)
+        .then((text) => text);
+      console.log('recoginized', recoginized);
+      return recoginized;
+    });
+    console.log('text', text);
+    if (!text) {
+      return text;
+    }
+    const pass = text.replace(/\s/g, '').replace(/s/g, '6').slice(0, 5);
+    console.log('pass', pass);
+    await page.type('#captcha', pass);
+    await page.click('#send');
+    const p = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    await Promise.race([
+      page.waitForNavigation(),
+      p(1000).then(() => page.waitForSelector('#captchaRes:not(:empty)')),
+    ]);
+  }
+
   async function getPageInfo(url) {
     console.log('============');
     console.log(url);
     const start = now();
+    const page = await browser.newPage();
+    await page.setViewport({
+      width: 1920,
+      height: 1080,
+      deviceScaleFactor: 1,
+    });
     try {
       console.log(`try ${url} ...`);
       await page.goto(url, { waitUntil: 'networkidle2' });
-      const data = [];
+      let hasCaptchaFlag = await hasCaptcha(page);
+      let counter = 0;
+      while (hasCaptchaFlag) {
+        counter += 1;
+        console.log('counter', counter);
+        await solveCaptcha(page);
+        hasCaptchaFlag = await hasCaptcha(page);
+      }
+      return { payload: 1 };
       const element = await page.evaluate(async () => {
         const { default: capture } = await import('https://esm.sh/html2canvas');
         const { default: { recognize } } = await import('https://esm.sh/tesseract.js');
-        const captcha = document.getElementById('captchaImg');
-        console.log('captcha', captcha);
-        if (captcha) {
-          recognize(captcha)
-            .then((recognized) => recognized.data.text)
-            .then((text) => console.log('captcha text', text));
-        }
         const rows = [...document.querySelectorAll('.table-responsive tr')];
         // for (const row of rows) {
         //   // for (const row of [rows[0], rows[2], rows[22]]) {
@@ -83,7 +114,7 @@ const emulator = async () => {
               }
               return [...result, promiseFunction(value, index)];
             },
-              []);
+            []);
           return data;
         };
 
@@ -106,7 +137,7 @@ const emulator = async () => {
         console.log('before');
         console.log('promisesAllByGroup', promisesAllByGroup);
         // const promises = promisesAllByGroup(rows, getRowData, 6);
-        const promises = promisesAllByGroup(rows.filter((_value, index) => index < 2), getRowData, 6);
+        const promises = promisesAllByGroup(rows.filter((_value, index) => index < 1), getRowData, 6);
         console.log('after');
         console.log(promises);
         const x = [];
@@ -138,6 +169,8 @@ const emulator = async () => {
         status: 'ERROR',
         error,
       };
+    } finally {
+      // page.close();
     }
   }
 
