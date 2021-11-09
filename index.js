@@ -13,6 +13,7 @@ const host = 'http://www.vybory.izbirkom.ru';
 
 (async () => {
   const { closeEmulator, getPageInfo, getResult } = await emulator();
+  // const pages = uiks;
   const pages = uiks.filter((value, index) => index <= 5);
 
   for (let i = 0; i < pages.length; i += 1) {
@@ -25,5 +26,5 @@ const host = 'http://www.vybory.izbirkom.ru';
     const content = { ...page, ...tikInfo.payload };
     await fsp.writeFile(filename, JSON.stringify(content), 'utf-8');
   }
-  // await closeEmulator();
+  await closeEmulator();
 })();
