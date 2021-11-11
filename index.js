@@ -12,19 +12,32 @@ const emulator = require('./emulator');
 const host = 'http://www.vybory.izbirkom.ru';
 
 (async () => {
-  const { closeEmulator, getPageInfo, getResult } = await emulator();
+  const { closeEmulator, getPageInfo } = await emulator();
   // const pages = uiks;
-  const pages = uiks.filter((value, index) => index <= 5);
-
-  for (let i = 0; i < pages.length; i += 1) {
+  const pages = uiks.filter((_value, index) => index <= 3);
+  const names = {};
+  const contents = [];
+  while (pages.length > 0) {
     console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
-    console.log(i);
-    const page = pages[i];
+    const page = pages.shift();
     const filename = `uik_${page.uikName.split('№')[1]}.json`;
     const url = `${host}/${page.uikHref}`;
     const tikInfo = await getPageInfo(url);
-    const content = { ...page, ...tikInfo.payload };
-    await fsp.writeFile(filename, JSON.stringify(content), 'utf-8');
+    if (tikInfo.payload) {
+      console.log('payload', tikInfo.payload);
+      const content = { ...page };
+      tikInfo.payload.forEach(({ index, name, value }) => {
+        content[index] = value;
+        names[index] = names[index] ? [...names[index], name] : [name];
+      });
+      contents.push(content);
+      await fsp.writeFile(filename, JSON.stringify(content), 'utf-8');
+    }
+    if (tikInfo.error) {
+      pages.push(page);
+    }
   }
+  console.log('names', names);
+  console.log('contents', contents);
   await closeEmulator();
 })();

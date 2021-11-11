@@ -101,8 +101,8 @@ const emulator = async () => {
 
         console.log('before');
         console.log('promisesAllByGroup', promisesAllByGroup);
-        const promises = promisesAllByGroup(rows, getRowData, 6);
-        // const promises = promisesAllByGroup(rows.filter((_value, index) => index < 1), getRowData, 6);
+        // const promises = promisesAllByGroup(rows, getRowData, 6);
+        const promises = promisesAllByGroup(rows.filter((_value, index) => index < 4), getRowData, 6);
         console.log('after');
         console.log('promises', promises);
         const x = [];
@@ -115,8 +115,6 @@ const emulator = async () => {
             console.log('e', e);
           }
         }
-        // const all = await Promise.all(promises);
-        // const all = await promises;
         return x;
       });
       console.log('element', element);
