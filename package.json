@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
+    "exceljs": "^4.3.0",
     "fs": "^0.0.1-security",
     "mysql2": "^2.2.5",
     "performance-now": "^2.1.0",
