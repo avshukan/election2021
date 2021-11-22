@@ -79,7 +79,7 @@ const emulator = async () => {
               }
               return [...result, promiseFunction(value, index)];
             },
-              []);
+            []);
           return data;
         };
 

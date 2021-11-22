@@ -12,11 +12,25 @@ const emulator = require('./emulator');
 
 const host = 'http://www.vybory.izbirkom.ru';
 
+const getMode = (array) => {
+  const frequency = {}; // array of frequency.
+  let maxFrequency = 0; // holds the max frequency.
+  let mode = null;
+  for (const i in array) {
+    frequency[array[i]] = (frequency[array[i]] || 0) + 1; // increment frequency.
+    if (frequency[array[i]] > maxFrequency) { // is this frequency > max so far ?
+      maxFrequency = frequency[array[i]]; // update max.
+      mode = array[i]; // update result.
+    }
+  }
+  return mode;
+};
+
 (async () => {
   const { closeEmulator, getPageInfo } = await emulator();
   // const pages = uiks;
-  const pages = uiks.filter((_value, index) => index <= 3);
-  const names = {};
+  const pages = uiks.filter((_value, index) => index <= 4);
+  const allNames = {};
   const contents = [];
   const workbook = new excel.Workbook();
   const worksheet = workbook.addWorksheet('sheet');
@@ -33,7 +47,7 @@ const host = 'http://www.vybory.izbirkom.ru';
       const content = { ...page };
       tikInfo.payload.forEach(({ index, name, value }) => {
         content[index] = value;
-        names[index] = names[index] ? [...names[index], name] : [name];
+        allNames[index] = allNames[index] ? [...allNames[index], name] : [name];
         const r = worksheet.getRow(row);
         r.getCell(index + 1).value = value;
       });
@@ -45,7 +59,11 @@ const host = 'http://www.vybory.izbirkom.ru';
     }
   }
   await workbook.xlsx.writeFile('filename.xlsx');
+  console.log('allNames', allNames);
+  const names = {};
+  Object.entries(allNames).forEach(([key, value]) => { names[key] = getMode(value); });
   console.log('names', names);
+  await fsp.writeFile('names.json', JSON.stringify(names), 'utf-8');
   console.log('contents', contents);
   await closeEmulator();
 })();
