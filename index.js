@@ -16,20 +16,32 @@ const getMode = (array) => {
   const frequency = {}; // array of frequency.
   let maxFrequency = 0; // holds the max frequency.
   let mode = null;
-  for (const i in array) {
-    frequency[array[i]] = (frequency[array[i]] || 0) + 1; // increment frequency.
-    if (frequency[array[i]] > maxFrequency) { // is this frequency > max so far ?
-      maxFrequency = frequency[array[i]]; // update max.
-      mode = array[i]; // update result.
+  console.log('array', array);
+  // for (const i in array) {
+  array.forEach((item) => {
+    frequency[item] = (frequency[item] || 0) + 1; // increment frequency.
+    if (frequency[item] > maxFrequency) { // is this frequency > max so far ?
+      maxFrequency = frequency[item]; // update max.
+      mode = item; // update result.
     }
-  }
+  });
   return mode;
+};
+
+const printRow = (row, page, info) => {
+  const side = Object.keys(page).sort();
+  side.forEach((item, index) => {
+    row.getCell(index + 1).value = page[item];
+  });
+  info.payload.forEach(({ index, _name, value }) => {
+    row.getCell(index + side.length + 1).value = value;
+  });
 };
 
 (async () => {
   const { closeEmulator, getPageInfo } = await emulator();
-  // const pages = uiks;
-  const pages = uiks.filter((_value, index) => index <= 4);
+  const pages = uiks;
+  // const pages = uiks.filter((_value, index) => index <= 4);
   const allNames = {};
   const contents = [];
   const workbook = new excel.Workbook();
@@ -48,22 +60,34 @@ const getMode = (array) => {
       tikInfo.payload.forEach(({ index, name, value }) => {
         content[index] = value;
         allNames[index] = allNames[index] ? [...allNames[index], name] : [name];
-        const r = worksheet.getRow(row);
-        r.getCell(index + 1).value = value;
       });
+      printRow(worksheet.getRow(row), page, tikInfo);
       contents.push(content);
-      await fsp.writeFile(filename, JSON.stringify(content), 'utf-8');
+      await fsp.writeFile(`files/${filename}`, JSON.stringify(content), 'utf-8');
     }
     if (tikInfo.error) {
       pages.push(page);
     }
   }
-  await workbook.xlsx.writeFile('filename.xlsx');
   console.log('allNames', allNames);
-  const names = {};
-  Object.entries(allNames).forEach(([key, value]) => { names[key] = getMode(value); });
+  const names = [];
+  Object.entries(allNames).forEach(([key, value]) => {
+    names[key] = {
+      index: key,
+      name: '',
+      value: getMode(value),
+    };
+  });
   console.log('names', names);
-  await fsp.writeFile('names.json', JSON.stringify(names), 'utf-8');
-  console.log('contents', contents);
+  await fsp.writeFile('files/names.json', JSON.stringify(names), 'utf-8');
+  // const pageNames = {
+  //   tikName: 'ТИК',
+  //   tikHref: 'Ссылка на ТИК',
+  //   uikName: 'УИК',
+  //   uikHref: 'Ссылка на УИК',
+  // };
+  // printRow(worksheet.getRow(1), pageNames, names);
+  // await workbook.xlsx.writeFile('files/filename.xlsx');
+  // console.log('contents', contents);
   await closeEmulator();
 })();
