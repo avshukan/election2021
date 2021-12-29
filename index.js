@@ -30,18 +30,20 @@ const getMode = (array) => {
 
 const printRow = (row, page, info) => {
   const side = Object.keys(page).sort();
+  console.log('side', side);
   side.forEach((item, index) => {
     row.getCell(index + 1).value = page[item];
   });
   info.payload.forEach(({ index, _name, value }) => {
-    row.getCell(index + side.length + 1).value = value;
+    console.log('index + side.length + 1', +index + +side.length + 1);
+    row.getCell(+index + +side.length + 1).value = value;
   });
 };
 
 (async () => {
   const { closeEmulator, getPageInfo } = await emulator();
   const pages = uiks;
-  // const pages = uiks.filter((_value, index) => index <= 4);
+  // const pages = uiks.filter((_value, index) => index <= 2);
   const allNames = {};
   const contents = [];
   const workbook = new excel.Workbook();
@@ -69,17 +71,17 @@ const printRow = (row, page, info) => {
       pages.push(page);
     }
   }
-  console.log('allNames', allNames);
-  const names = [];
-  Object.entries(allNames).forEach(([key, value]) => {
-    names[key] = {
-      index: key,
-      name: '',
-      value: getMode(value),
-    };
-  });
-  console.log('names', names);
-  await fsp.writeFile('files/names.json', JSON.stringify(names), 'utf-8');
+  // console.log('allNames', allNames);
+  // const names = [];
+  // Object.entries(allNames).forEach(([key, value]) => {
+  //   names[key] = {
+  //     index: key,
+  //     name: '',
+  //     value: getMode(value),
+  //   };
+  // });
+  // console.log('names', names);
+  // await fsp.writeFile('files/names.json', JSON.stringify(names), 'utf-8');
   // const pageNames = {
   //   tikName: 'ТИК',
   //   tikHref: 'Ссылка на ТИК',
@@ -87,7 +89,7 @@ const printRow = (row, page, info) => {
   //   uikHref: 'Ссылка на УИК',
   // };
   // printRow(worksheet.getRow(1), pageNames, names);
-  // await workbook.xlsx.writeFile('files/filename.xlsx');
+  await workbook.xlsx.writeFile('files/filename.xlsx');
   // console.log('contents', contents);
   await closeEmulator();
 })();
